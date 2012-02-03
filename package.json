@@ -1,0 +1,24 @@
+{
+  "author": "Kevin O'Hara <kevinohara80@gmail.com>",
+  "name": "elknode",
+  "description": "A node.js module for interfacing with the Elk M1 Gold automation controller",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kevinohara80/elknode.git"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": "~0.6.7"
+  },
+  "dependencies": {
+    "mocha": "*",
+    "should": "*",
+    "colors": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node ./app.js",
+    "test": "mocha --reporter spec"
+  }
+}
