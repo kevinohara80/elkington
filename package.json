@@ -12,11 +12,12 @@
     "node": "~0.6.7"
   },
   "dependencies": {
-    "mocha": "*",
-    "should": "*",
     "colors": "*"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
   "scripts": {
     "start": "node ./app.js",
     "test": "mocha --reporter spec"
