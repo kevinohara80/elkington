@@ -1,5 +1,11 @@
 var parser = require('../lib/parser');
 
+var tests = [
+  { ascii: '16XK5435226130412110006E', message: 'Request Ethernet test' },
+  { ascii: '1EAS000000001111111100000000000E', message: 'Arming status report data' },
+  { ascii: '0AZC006200CA', message: 'Zone change update' }
+];
+
 describe('parser', function(){
   
   describe('#parseMessage', function(){
@@ -11,8 +17,8 @@ describe('parser', function(){
     });
     
     it('should parse \'Request Ethernet test\' message ok', function(done){
-      var results = parser.parseMessage('16XK5435226130412110006E');
-      results.message.should.equal('Request Ethernet test');
+      var results = parser.parseMessage(tests[0].ascii);
+      results.message.should.equal(tests[0].message);
       results.length.should.equal(22);
       results.direction.should.equal('from');
       results.commandCode.should.equal('XK');
