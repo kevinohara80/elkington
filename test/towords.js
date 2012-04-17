@@ -1,6 +1,6 @@
 var towords = require('../lib/towords');
 
-describe('parser', function(){
+describe('towords', function(){
   
   describe('#calc', function(){
     
