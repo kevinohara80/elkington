@@ -2,7 +2,11 @@ var net = require('net');
 var protocol = require('./lib/protocol');
 var parser = require('./lib/parser');
 var messaging = require('./lib/messaging');
+var safereturn = require('safereturn');
 var EventEmitter = require('events').EventEmitter;
+
+// set the default timeout to 3s so the Elk has time to respond
+safereturn.defaultTimeout = 3000;
 
 /*********************************/
 /* ElkConnection definition      */
@@ -13,6 +17,7 @@ var ElkConnection = function(opts) {
   this.port = (opts.port) ? opts.port : 2000;
   this.host = (opts.host) ? opts.host : '192.168.1.2';
   this.defaultArmMode = (opts.defaultArmMode) ? opts.defaultArmMode.toLowerCase() : 'away';
+  this.responseTimeout = (opts.responseTimeout) ? opts.responseTimeout : 3000;
   this._connection = null;
 }
 
@@ -103,12 +108,17 @@ ElkConnection.prototype.armStepStay = function(opts) {
 
 ElkConnection.prototype.armingStatusRequest = function(callback) {
   if(callback && typeof callback === 'function') {
-    // register an event handler for the response
+    callback = safereturn(callback, this.responseTimeout);
     this.once('AS', function(data){
       callback(null, data);
     });
   }
   this._connection.write(messaging.writeAscii('as'));
+}
+
+ElkConnection.prototype.alarmByZoneRequest = function(opts) {
+  // implement callback
+  this._connection.write('06az005F\r\n');
 }
 
 ElkConnection.prototype.speak = function(message) {
