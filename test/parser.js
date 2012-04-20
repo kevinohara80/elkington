@@ -2,8 +2,9 @@ var parser = require('../lib/parser');
 
 var tests = [
   { ascii: '16XK5435226130412110006E', message: 'Request Ethernet test' },
-  { ascii: '1EAS000000001111111100000000000E', message: 'Arming status report data' },
-  { ascii: '0AZC006200CA', message: 'Zone change update' }
+  { ascii: '1EAS100000004000000030000000000E', message: 'Arming status report data' },
+  { ascii: '0AZC006200CA', message: 'Zone change update' },
+  { ascii: '16AR12345611340100110085', message: 'Alarm Reporting to Ethernet' }
 ];
 
 describe('parser', function(){
@@ -22,6 +23,33 @@ describe('parser', function(){
       results.length.should.equal(22);
       results.direction.should.equal('from');
       results.commandCode.should.equal('XK');
+      results.dataRaw.should.equal('543522613041211000');
+      done();
+    });
+    
+    it('should parse \'Arming Status\' message ok', function(done){
+      var results = parser.parseMessage(tests[1].ascii);
+      results.message.should.equal(tests[1].message);
+      results.length.should.equal(30);
+      results.dataRaw.should.equal('10000000400000003000000000');
+      results.should.have.property('area1');
+      results.should.have.property('area2');
+      results.should.have.property('area3');
+      results.should.have.property('area4');
+      results.should.have.property('area5');
+      results.should.have.property('area6');
+      results.should.have.property('area7');
+      results.should.have.property('area8');
+      results.area1.armStatus.should.equal('Armed Away');
+      results.area1.alarmState.should.equal('Fire Alarm');
+      done();
+    });
+    
+    it('should parse \'Alarm Reporting\' message ok', function(done){
+      var results = parser.parseMessage(tests[3].ascii);
+      results.message.should.equal(tests[3].message);
+      results.length.should.equal(22);
+      results.dataRaw.should.equal('123456113401001100');
       done();
     });
     
