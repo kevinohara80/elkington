@@ -5,8 +5,13 @@ var messaging = require('./lib/messaging');
 var safereturn = require('safereturn');
 var EventEmitter = require('events').EventEmitter;
 
-// set the default timeout to 3s so the Elk has time to respond
+// safereturn overrides
 safereturn.defaultTimeout = 3000;
+
+safereturn.onTimeout = function(wrappedCallback, oldError) {
+  var err = new Error('The Elk M1XEP failed to respond');
+  wrappedCallback(err);
+}
 
 /*********************************/
 /* ElkConnection definition      */
@@ -38,6 +43,7 @@ ElkConnection.prototype.listen = function() {
   // data event handler
   this._connection.on('data', function(data) {
     var msg = parser.parseMessage(data)
+    msg.time = new Date();
     msg.host = that._connection.address().address;
     msg.port = that.port;
     msg.remotePort = that._connection.address().port;
@@ -116,8 +122,13 @@ ElkConnection.prototype.armingStatusRequest = function(callback) {
   this._connection.write(messaging.writeAscii('as'));
 }
 
-ElkConnection.prototype.alarmByZoneRequest = function(opts) {
-  // implement callback
+ElkConnection.prototype.alarmByZoneRequest = function(callback) {
+  if(callback && typeof callback === 'function') {
+    callback = safereturn(callback, this.responseTimeout);
+    this.once('AZ', function(data){
+      callback(null, data);
+    });
+  }
   this._connection.write('06az005F\r\n');
 }
 
