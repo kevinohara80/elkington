@@ -18,22 +18,13 @@ safereturn.onTimeout = function(wrappedCallback, oldError) {
 /*********************************/
 
 var ElkConnection = function(opts) {
+  
   if(!opts) opts = {};
+  
   this.port = (opts.port) ? opts.port : 2000;
   this.host = (opts.host) ? opts.host : '192.168.1.2';
   this.defaultArmMode = (opts.defaultArmMode) ? opts.defaultArmMode.toLowerCase() : 'away';
   this.responseTimeout = (opts.responseTimeout) ? opts.responseTimeout : 3000;
-  this._connection = null;
-}
-
-// inherit from EventEmitter
-ElkConnection.prototype = Object.create(EventEmitter.prototype);
-
-ElkConnection.prototype.configure = function() {
-  
-}
-
-ElkConnection.prototype.listen = function() {
   
   var that = this;
   
@@ -65,11 +56,21 @@ ElkConnection.prototype.listen = function() {
     that.emit('end', 'The connection to the Elk M1 has been lost');
   });
   
+}
+
+// inherit from EventEmitter
+ElkConnection.prototype = Object.create(EventEmitter.prototype);
+
+ElkConnection.prototype.configure = function() {
+  
+}
+
+ElkConnection.prototype.listen = function() {
+  var that = this;
   this._connection.connect(this.port, this.host, function(){
     //connect listener
     that.emit('connect', 'Connected to Elk M1XEP at ' + that.host + ' and port ' + that.port);
   });
-  
 }
 
 ElkConnection.prototype.disconnect = function() {
@@ -129,7 +130,7 @@ ElkConnection.prototype.alarmByZoneRequest = function(callback) {
       callback(null, data);
     });
   }
-  this._connection.write('06az005F\r\n');
+  this._connection.write(messaging.writeAcsii('az'));
 }
 
 ElkConnection.prototype.speak = function(message) {
