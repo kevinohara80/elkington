@@ -28,6 +28,8 @@ elk.on('any', function(data){
 elk.listen();
 ```
 
+### Handling events
+
 elknode provides a lot of commands. Some of the commands will invoke a response from the controller. You can optionally pass in a callback to these commands.
 
 ```javascript
@@ -49,6 +51,43 @@ elk.on('AZ', function(data) {
 });
 
 elk.alarmByZoneRequest();
+```
+
+### Speaking
+
+The Elk M1 has a large library of words that it can say over it's speaker. With the elknode `speak()` function, you can make your Elk say all kinds of stuff.
+
+```javascript
+elk.speak('defective hottub pump');
+```
+
+Or something more useful:
+
+```javascript
+var elknode = require('elknode');
+var request = require('request');
+var elk = elknode.createConnection({ port: 2101 , host: '192.168.1.13'});
+
+elk.on('connect', function(data) {
+  
+  // get the weather when connected to the Elk.
+  var opts = {};
+  opts.url = 'http://query.yahooapis.com/v1/public/yql';
+  opts.qs = {};
+  opts.qs.q = 'select item from weather.forecast where location = "48307"';
+  opts.qs.format = 'json';
+  
+  request(opts, function(error, response, body) {
+    if(!error) {
+      var temp = JSON.parse(body).query.results.channel.item.condition.temp.toString();    
+      elk.speak('outside temperature is ' + temp + ' degrees');
+    }
+  });
+  
+}); 
+
+elk.listen();
+
 ```
 
 ## API
