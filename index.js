@@ -47,7 +47,7 @@ ElkConnection.prototype.listen = function() {
     msg.host = that._connection.address().address;
     msg.port = that.port;
     msg.remotePort = that._connection.address().port;
-    that.emit('data', msg);
+    that.emit('any', msg);
     that.emit(msg.commandCode, msg);
   });
   
