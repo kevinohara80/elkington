@@ -67,12 +67,14 @@ var elk = elknode.createConnection({ port: 2101 , host: '192.168.1.13'});
 
 elk.on('connect', function(data) {
   
-  // get the weather when connected to the Elk.
-  var opts = {};
-  opts.url = 'http://query.yahooapis.com/v1/public/yql';
-  opts.qs = {};
-  opts.qs.q = 'select item from weather.forecast where location = "48307"';
-  opts.qs.format = 'json';
+  // say the outside temp on connection to the Elk
+  var opts = {
+    url: 'http://query.yahooapis.com/v1/public/yql',
+    qs: {
+      q: 'select item from weather.forecast where location = "48307"',
+      format: 'json'
+    }
+  };
   
   request(opts, function(error, response, body) {
     if(!error) {
