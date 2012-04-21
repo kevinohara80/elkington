@@ -50,6 +50,10 @@ describe('parser', function(){
       results.message.should.equal(tests[3].message);
       results.length.should.equal(22);
       results.dataRaw.should.equal('123456113401001100');
+      results.data.area.should.equal(1);
+      results.data.accountNumber.should.equal(123456);
+      results.data.alarmCode.should.equal(1134);
+      results.data.zone.should.equal(1);
       done();
     });
     
