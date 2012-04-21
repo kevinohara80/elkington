@@ -93,13 +93,13 @@ The speak function can even interpret numerical values
 elk.speak('2012');
 ```
 
-## API
-
-Once you create a connection, the following methods are available.
+## Event API
 
 ### on(event, callback) 
 
 Register an event listener.
+
+## Arm/Disarm API
 
 ### disarm([callback])
 
@@ -124,6 +124,22 @@ Arm the Elk in Night Mode.
 ### armNightInstant([options])
 
 Arm the Elk in Night Mode instantaneously.
+
+### armVacation([options])
+
+Arm the Elk in Vacation Mode.
+
+### armStepAway([options])
+
+Arm and step to next Away mode
+
+### armStepStay([options])
+
+Arm and step to next Stay mode
+
+### armingStatusRequest([callback])
+
+Request the arming statuses for all areas. Callback is optional. The callback returns the results of the Arming Status Response sent by the Elk.
 
 ## Events
 
