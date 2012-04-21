@@ -11,7 +11,7 @@ This is currently half-baked and under development.
 
 ## Usage
 
-To get started, call `createConnection()` to create a new connection, register some event handlers, then call `listen()`:
+To get started, call `createConnection()` to create a new connection and register some event handlers:
 
 ```javascript
 var elknode = require('elknode');
@@ -23,9 +23,6 @@ var elk = elknode.createConnection({ port: 2101 , host: '192.168.1.13' });
 elk.on('any', function(data){
   console.log('Incoming message: ' + data.message);
 });
-
-// connect to the Elk and listen for messages
-elk.listen();
 ```
 
 ### Handling events
@@ -85,18 +82,11 @@ elk.on('connect', function(data) {
   });
   
 }); 
-
-elk.listen();
-
 ```
 
 ## API
 
 Once you create a connection, the following methods are available.
-
-### listen()
-
-The listen method initiates the connection to the Elk.
 
 ### on(event, callback) 
 

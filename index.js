@@ -56,22 +56,15 @@ var ElkConnection = function(opts) {
     that.emit('end', 'The connection to the Elk M1 has been lost');
   });
   
-}
-
-// inherit from EventEmitter
-ElkConnection.prototype = Object.create(EventEmitter.prototype);
-
-ElkConnection.prototype.configure = function() {
-  
-}
-
-ElkConnection.prototype.listen = function() {
-  var that = this;
   this._connection.connect(this.port, this.host, function(){
     //connect listener
     that.emit('connect', 'Connected to Elk M1XEP at ' + that.host + ' and port ' + that.port);
   });
+  
 }
+
+// inherit from EventEmitter
+ElkConnection.prototype = Object.create(EventEmitter.prototype);
 
 ElkConnection.prototype.disconnect = function() {
   if(this._connection) this._connection.destroy();
