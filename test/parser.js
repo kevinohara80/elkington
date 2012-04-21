@@ -32,16 +32,16 @@ describe('parser', function(){
       results.message.should.equal(tests[1].message);
       results.length.should.equal(30);
       results.dataRaw.should.equal('10000000400000003000000000');
-      results.should.have.property('area1');
-      results.should.have.property('area2');
-      results.should.have.property('area3');
-      results.should.have.property('area4');
-      results.should.have.property('area5');
-      results.should.have.property('area6');
-      results.should.have.property('area7');
-      results.should.have.property('area8');
-      results.area1.armStatus.should.equal('Armed Away');
-      results.area1.alarmState.should.equal('Fire Alarm');
+      results.data.should.have.property('area1');
+      results.data.should.have.property('area2');
+      results.data.should.have.property('area3');
+      results.data.should.have.property('area4');
+      results.data.should.have.property('area5');
+      results.data.should.have.property('area6');
+      results.data.should.have.property('area7');
+      results.data.should.have.property('area8');
+      results.data.area1.armStatus.should.equal('Armed Away');
+      results.data.area1.alarmState.should.equal('Fire Alarm');
       done();
     });
     

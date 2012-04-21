@@ -20,8 +20,8 @@ var elknode = require('elknode');
 var elk = elknode.createConnection({ port: 2101 , host: '192.168.1.13' });
 
 // register event handlers
-elk.on('any', function(data){
-  console.log('Incoming message: ' + data.message);
+elk.on('any', function(msg){
+  console.log('Incoming message: ' + msg.message);
 });
 ```
 
@@ -30,7 +30,7 @@ elk.on('any', function(data){
 **elknode** provides a lot of commands. Some of the commands will invoke a response from the controller. You can optionally pass in a callback to these commands.
 
 ```javascript
-elk.alarmByZoneRequest(function(err, data){
+elk.alarmByZoneRequest(function(err, resp){
   if(err) {
     console.log(err.message);
   } else {
@@ -43,8 +43,8 @@ Or you can listen for the response in a separate event handler and just call the
 
 ```javascript
 // AZ is the message type for 'Alarm by Zone Reply'
-elk.on('AZ', function(data) {
-  console.log('area1 arm status: ' + data.area1.armStatus);
+elk.on('AZ', function(msg) {
+  console.log('area1 arm status: ' + msg.data.area1.armStatus);
 });
 
 elk.alarmByZoneRequest();
@@ -65,7 +65,7 @@ var elknode = require('elknode');
 var request = require('request');
 var elk = elknode.createConnection({ port: 2101 , host: '192.168.1.13'});
 
-elk.on('connect', function(data) {
+elk.on('connect', function() {
   
   // say the outside temp on connection to the Elk
   var opts = {
