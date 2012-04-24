@@ -123,7 +123,7 @@ ElkConnection.prototype.alarmByZoneRequest = function(callback) {
       callback(null, data);
     });
   }
-  this._connection.write(messaging.writeAcsii('az'));
+  this._connection.write(messaging.writeAscii('az'));
 }
 
 ElkConnection.prototype.speak = function(message) {
