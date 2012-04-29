@@ -1,11 +1,11 @@
 {
   "author": "Kevin O'Hara <kevinohara80@gmail.com>",
-  "name": "elknode",
+  "name": "elkington",
   "description": "A node.js module for interfacing with the Elk M1 Gold automation controller",
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/kevinohara80/elknode.git"
+    "url": "git://github.com/kevinohara80/elkington.git"
   },
   "main": "index.js",
   "engines": {
