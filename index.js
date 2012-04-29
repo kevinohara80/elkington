@@ -21,10 +21,13 @@ var ElkConnection = function(opts) {
   
   if(!opts) opts = {};
   
-  this.port = (opts.port) ? opts.port : 2000;
+  this.port = (opts.port) ? opts.port : 2101;
   this.host = (opts.host) ? opts.host : '192.168.1.2';
   this.defaultArmMode = (opts.defaultArmMode) ? opts.defaultArmMode.toLowerCase() : 'away';
   this.responseTimeout = (opts.responseTimeout) ? opts.responseTimeout : 3000;
+  this.useSecure = (opts.useSecure) ? true : false;
+  this.username = (opts.username) ? opts.username : null;
+  this.password = (opts.password) ? opts.password : null;
   
   var that = this;
   
@@ -33,6 +36,10 @@ var ElkConnection = function(opts) {
   
   // data event handler
   this._connection.on('data', function(data) {
+    
+    // todo: implement listening for auth requests and pass
+    // username and password
+    
     var msg = parser.parseMessage(data)
     msg.time = new Date();
     msg.host = that._connection.address().address;
