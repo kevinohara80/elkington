@@ -143,7 +143,7 @@ Request the arming statuses for all areas. Callback is optional. The callback re
 
 ## Events
 
-**elkington** can emit the following events:
+**elkington** can emit the following events. With the exception of the utility `any` event, the events use the same two-character, uppercase codes from the Elk RS-232 ASCII protocol:
 
 * `any`: Any message from the Elk
 * `AR`: Alarm Reporting to Ethernet
