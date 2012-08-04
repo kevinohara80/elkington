@@ -1,4 +1,5 @@
 var net = require('net');
+var tls = require('tls');
 var protocol = require('./lib/protocol');
 var parser = require('./lib/parser');
 var messaging = require('./lib/messaging');
@@ -31,7 +32,14 @@ var ElkConnection = function(opts) {
   
   var that = this;
   
-  this._connection = new net.Socket();
+  if(this.useSecure) {
+    // this needs to be fixed. There is no tls.Socket so we need to connect immediately.
+    
+    this._connection = new net.Socket();
+  } else {
+    this._connection = new net.Socket();
+  }
+  
   this._connection.setEncoding('ascii');
   
   // data event handler
