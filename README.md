@@ -2,12 +2,13 @@
 
 **elkington** is a node.js module for interfacing with the Elk M1 Gold automation controller. 
 
-This is currently half-baked and under development.
+**This is currently experimental and under development. Not all Elk commands are available**
 
 ## Features
 
 * Simple API with function calls for Elk commands
-* Optional callbacks 
+* Supports many Elk commands
+* Supports both secure and non-secure communication ports
 
 ## Usage
 
@@ -17,11 +18,28 @@ To get started, call `createConnection()` to create a new connection and registe
 var elkington = require('elkington');
 
 /// create a connection
-var elk = elkington.createConnection({ port: 2101 , host: '192.168.1.13' });
+var elk = elkington.createConnection({ 
+  port: 2101, 
+  host: '192.168.1.13' 
+});
 
 // register event handlers
 elk.on('any', function(msg){
   console.log('Incoming message: ' + msg.message);
+});
+```
+
+Or a secure connection can be established...
+
+var elkington = require('elkington');
+
+/// create a connection
+var elk = elkington.createConnection({ 
+  port: 2601, 
+  host: 'myelk.myhouse.com',
+  username: 'somebody',
+  password: 'yoyoyo',
+  useSecure: true 
 });
 ```
 
