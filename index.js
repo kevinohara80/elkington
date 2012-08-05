@@ -22,59 +22,83 @@ var ElkConnection = function(opts) {
   
   if(!opts) opts = {};
   
-  this.port = (opts.port) ? opts.port : 2101;
-  this.host = (opts.host) ? opts.host : '192.168.1.2';
-  this.defaultArmMode = (opts.defaultArmMode) ? opts.defaultArmMode.toLowerCase() : 'away';
-  this.responseTimeout = (opts.responseTimeout) ? opts.responseTimeout : 3000;
-  this.useSecure = (opts.useSecure) ? true : false;
-  this.username = (opts.username) ? opts.username : null;
-  this.password = (opts.password) ? opts.password : null;
+  this.port            = opts.port || 2101;
+  this.host            = opts.host || '192.168.1.2';
+  this.responseTimeout = opts.responseTimeout || 3000;
+  this.useSecure       = (opts.useSecure === true) ? true : false;
+  this.username        = opts.username || null;
+  this.password        = opts.password || null;
+
+  this._authorized     = false;
+
+  this.defaultArmMode  = (opts.defaultArmMode) 
+                         ? opts.defaultArmMode.toLowerCase() 
+                         : 'away';
   
   var that = this;
+
+  function afterConnect() {
+
+    that._connection.setEncoding('ascii');
   
-  if(this.useSecure) {
-    // this needs to be fixed. There is no tls.Socket so we need to connect immediately.
+    // data event handler
+    that._connection.on('data', function(data) {
+
+      data = data.trim().replace('\r', '').replace('\n', '');
+
+      // check for elk auth requests
+      if(data == 'Username:') {
+        console.log('Sending: ' + that.username);
+        return that._connection.write(that.username + '\r\n');
+      } else if(data.indexOf('Password:') != -1) {
+        console.log('Sending: ' + that.password);
+        return that._connection.write(that.password + '\r\n');
+      } else if(data.indexOf('Elk-M1XEP: Login successful.') !== -1) {
+        that._authorized = true;
+        that.emit('connect');
+      }
+
+      // we are getting a weird message during auth process
+      if(that.useSecure && (!that._authorized || data.substring(0,2) === '**')) {
+        return;
+      }
+
+      // if we are not using un/pw, we are connected and ready
+      if(!that.useSecure) that.emit('connect');
+
+      // assuming the above passes, we parse the elk message and emit
+      var msg        = parser.parseMessage(data)
+      msg.time       = new Date();
+      msg.host       = that._connection.address().address;
+      msg.port       = that.port;
+      msg.remotePort = that._connection.address().port;
+      
+      that.emit('any', msg);
+      that.emit(msg.commandCode, msg);
+
+    });
     
-    this._connection = new net.Socket();
-  } else {
-    this._connection = new net.Socket();
+    // error event handler
+    that._connection.on('error', function(err){
+      if(err.code == 'ECONNREFUSED') {
+        that.emit('error', 'Connection to M1XEP failed!');
+      } else {
+        that.emit('error', err.code);
+      }
+    });
+    
+    // close event handler
+    that._connection.on('close', function(){
+      that.emit('end', 'The connection to the Elk M1 has been lost');
+    });
+
   }
   
-  this._connection.setEncoding('ascii');
-  
-  // data event handler
-  this._connection.on('data', function(data) {
-    
-    // todo: implement listening for auth requests and pass
-    // username and password
-    
-    var msg = parser.parseMessage(data)
-    msg.time = new Date();
-    msg.host = that._connection.address().address;
-    msg.port = that.port;
-    msg.remotePort = that._connection.address().port;
-    that.emit('any', msg);
-    that.emit(msg.commandCode, msg);
-  });
-  
-  // error event handler
-  this._connection.on('error', function(err){
-    if(err.code == 'ECONNREFUSED') {
-      that.emit('error', 'Connection to M1XEP failed!');
-    } else {
-      that.emit('error', err.code);
-    }
-  });
-  
-  // close event handler
-  this._connection.on('close', function(){
-    that.emit('end', 'The connection to the Elk M1 has been lost');
-  });
-  
-  this._connection.connect(this.port, this.host, function(){
-    //connect listener
-    that.emit('connect', 'Connected to Elk M1XEP at ' + that.host + ' and port ' + that.port);
-  });
+  if(this.useSecure) {
+    this._connection = new tls.connect(this.port, this.host, {}, afterConnect);
+  } else {
+    this._connection = new net.connect(this.port, this.host, afterConnect);
+  }
   
 }
 
