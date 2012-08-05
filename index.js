@@ -1,9 +1,9 @@
-var net = require('net');
-var tls = require('tls');
-var protocol = require('./lib/protocol');
-var parser = require('./lib/parser');
-var messaging = require('./lib/messaging');
-var safereturn = require('safereturn');
+var net          = require('net');
+var tls          = require('tls');
+var protocol     = require('./lib/protocol');
+var parser       = require('./lib/parser');
+var messaging    = require('./lib/messaging');
+var safereturn   = require('safereturn');
 var EventEmitter = require('events').EventEmitter;
 
 // safereturn overrides

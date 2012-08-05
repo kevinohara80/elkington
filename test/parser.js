@@ -1,4 +1,5 @@
 var parser = require('../lib/parser');
+var should = require('should');
 
 var tests = [
   { ascii: '16XK5435226130412110006E', message: 'Request Ethernet test' },
