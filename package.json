@@ -2,8 +2,8 @@
   "author": "Kevin O'Hara <kevinohara80@gmail.com>",
   "name": "elkington",
   "description": "A node.js module for interfacing with the Elk M1 Gold automation controller",
-  "keywords": [ "elk", "home", "automation", "security", "hardware", "m1", "m1xep"],
-  "version": "0.0.0",
+  "keywords": [ "elk", "home", "automation", "security", "hardware", "m1", "m1xep", "elkm1", "home"],
+  "version": "0.0.1-alpha",
   "repository": {
     "type": "git",
     "url": "git://github.com/kevinohara80/elkington.git"
@@ -24,5 +24,6 @@
   },
   "bugs": {
     "url": "http://github.com/kevinohara80/elkington/issues"
-  }
+  },
+  "license": "MIT"
 }
