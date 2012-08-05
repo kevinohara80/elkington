@@ -31,8 +31,6 @@ elk.on('any', function(msg){
 
 Or a secure connection can be established...
 
-var elkington = require('elkington');
-
 ```javascript
 /// create a connection
 var elk = elkington.createConnection({ 
