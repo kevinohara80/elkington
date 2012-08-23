@@ -2,7 +2,7 @@
 
 [![build status](https://secure.travis-ci.org/kevinohara80/elkington.png)](http://travis-ci.org/kevinohara80/elkington)
 
-**elkington** is a node.js module for interfacing with the Elk M1 Gold automation controller. 
+**elkington** is a node.js module for interfacing with the [Elk M1 Gold](http://www.elkproducts.com/product-catalog/m1-gold-cross-platform-control) automation controller. 
 
 **This is currently experimental and under development. Not all Elk messages are currently being parsed.**
 
