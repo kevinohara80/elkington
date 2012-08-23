@@ -4,7 +4,7 @@
 
 **elkington** is a node.js module for interfacing with the Elk M1 Gold automation controller. 
 
-**This is currently experimental and under development. Not all Elk commands are available**
+**This is currently experimental and under development. Not all Elk messages are currently being parsed.**
 
 ## Features
 
