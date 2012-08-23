@@ -3,7 +3,7 @@
   "name": "elkington",
   "description": "A node.js module for interfacing with the Elk M1 Gold automation controller",
   "keywords": [ "elk", "home", "automation", "security", "hardware", "m1", "m1xep", "elkm1", "home"],
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/kevinohara80/elkington.git"
