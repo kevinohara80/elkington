@@ -180,4 +180,4 @@ module.exports.createConnection = function(opts) {
   return new ElkConnection(opts);
 }
 
-module.exports.version = '0.0.1-alpha';
+module.exports.version = '0.0.1';
