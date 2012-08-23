@@ -48,10 +48,8 @@ var ElkConnection = function(opts) {
 
       // check for elk auth requests
       if(data == 'Username:') {
-        console.log('Sending: ' + that.username);
         return that._connection.write(that.username + '\r\n');
       } else if(data.indexOf('Password:') != -1) {
-        console.log('Sending: ' + that.password);
         return that._connection.write(that.password + '\r\n');
       } else if(data.indexOf('Elk-M1XEP: Login successful.') !== -1) {
         that._authorized = true;
