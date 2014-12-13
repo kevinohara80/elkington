@@ -65,7 +65,7 @@ var ElkConnection = function(opts) {
       if(!that.useSecure) that.emit('connect');
 
       // assuming the above passes, we parse the elk message and emit
-      var msg        = parser.parseMessage(data)
+      var msg        = parser.parseMessage(data);
       msg.time       = new Date();
       msg.host       = that._connection.address().address;
       msg.port       = that.port;
