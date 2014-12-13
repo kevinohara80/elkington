@@ -170,6 +170,16 @@ ElkConnection.prototype.speak = function(message) {
   }
 }
 
+ElkConnection.prototype.zoneDefinitionRequest = function(callback) {
+  if(callback && typeof callback === 'function') {
+    callback = safereturn(callback, this.responseTimeout);
+    this.once('ZD', function(data){
+      callback(null, data);
+    });
+  }
+  this._connection.write(messaging.writeAscii('zd'));
+}
+
 /*********************************/
 /* exports                       */
 /*********************************/
