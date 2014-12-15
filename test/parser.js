@@ -9,7 +9,8 @@ var tests = [
   { ascii: '0AZC031900C5', message: 'Zone change update' },
   { ascii: '0ACC063000E0', message: 'Control output change update' },
   { ascii: '19UA000123C33036BC9A41F009F', message: 'User code areas report data' },
-  { ascii: '0BPCA08010091', message: 'PLC change update' }
+  { ascii: '0BPCA08010091', message: 'PLC change update' },
+  { ascii: '1BSD01001Miller Res      0054', message: 'Text string description report data'}
 ];
 
 describe('parser', function(){
@@ -107,6 +108,18 @@ describe('parser', function(){
       results.data.houseCode.should.equal('A');
       results.data.unitCode.should.equal(8);
       results.data.lightLevel.should.equal(1);
+      done();
+    });
+
+    it('should parse \'Text string description report data\' message ok', function(done){
+      var results = parser.parseMessage(tests[8].ascii);
+      results.message.should.equal(tests[8].message);
+      results.length.should.equal(27);
+      results.dataRaw.should.equal('01001Miller Res      00');
+      results.data.type.should.equal(1);
+      results.data.typeName.should.equal('Area Name');
+      results.data.address.should.equal(1);
+      results.data.text.should.equal('Miller Res');
       done();
     });
 

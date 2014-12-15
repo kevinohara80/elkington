@@ -28,4 +28,11 @@ describe('messaging', function(){
     
   });
   
+  describe('#writeTextDescriptionsMessage', function(){
+    it('should return the right message formated for type and zone', function(done) {
+      messaging.writeTextDescriptionsMessage('sd', 1, 1).should.have.length(15);
+      done();
+    });
+    
+  });
 });

@@ -70,10 +70,8 @@ var ElkConnection = function(opts) {
       msg.host       = that._connection.address().address;
       msg.port       = that.port;
       msg.remotePort = that._connection.address().port;
-      
       that.emit('any', msg);
       that.emit(msg.commandCode, msg);
-
     });
     
     // error event handler
@@ -141,6 +139,10 @@ ElkConnection.prototype.armStepAway = function(opts) {
 
 ElkConnection.prototype.armStepStay = function(opts) {
   this._connection.write(messaging.writeArmingMessage('a8', opts));
+}
+
+ElkConnection.prototype.textDescriptionRequest = function(type, address) {
+  this._connection.write(messaging.writeTextDescriptionsMessage('sd', type, address));
 }
 
 ElkConnection.prototype.armingStatusRequest = function(callback) {
