@@ -141,10 +141,6 @@ ElkConnection.prototype.armStepStay = function(opts) {
   this._connection.write(messaging.writeArmingMessage('a8', opts));
 }
 
-ElkConnection.prototype.textDescriptionRequest = function(type, address) {
-  this._connection.write(messaging.writeTextDescriptionsMessage('sd', type, address));
-}
-
 ElkConnection.prototype.armingStatusRequest = function(callback) {
   if(callback && typeof callback === 'function') {
     callback = safereturn(callback, this.responseTimeout);
@@ -180,6 +176,16 @@ ElkConnection.prototype.zoneDefinitionRequest = function(callback) {
     });
   }
   this._connection.write(messaging.writeAscii('zd'));
+}
+
+ElkConnection.prototype.textDescriptionRequest = function(type, address, callback) {
+  if(callback && typeof callback === 'function') {
+    callback = safereturn(callback, this.responseTimeout);
+    this.once('SD', function(data){
+      callback(null, data);
+    });
+  }
+  this._connection.write(messaging.writeTextDescriptionsMessage('sd', type, address));
 }
 
 /*********************************/
