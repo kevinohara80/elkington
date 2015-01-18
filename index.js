@@ -65,15 +65,13 @@ var ElkConnection = function(opts) {
       if(!that.useSecure) that.emit('connect');
 
       // assuming the above passes, we parse the elk message and emit
-      var msg        = parser.parseMessage(data)
+      var msg        = parser.parseMessage(data);
       msg.time       = new Date();
       msg.host       = that._connection.address().address;
       msg.port       = that.port;
       msg.remotePort = that._connection.address().port;
-      
       that.emit('any', msg);
       that.emit(msg.commandCode, msg);
-
     });
     
     // error event handler
@@ -168,6 +166,26 @@ ElkConnection.prototype.speak = function(message) {
   for(var i=0; i<commands.length; i++) {
     this._connection.write(commands[i]);
   }
+}
+
+ElkConnection.prototype.zoneDefinitionRequest = function(callback) {
+  if(callback && typeof callback === 'function') {
+    callback = safereturn(callback, this.responseTimeout);
+    this.once('ZD', function(data){
+      callback(null, data);
+    });
+  }
+  this._connection.write(messaging.writeAscii('zd'));
+}
+
+ElkConnection.prototype.textDescriptionRequest = function(type, address, callback) {
+  if(callback && typeof callback === 'function') {
+    callback = safereturn(callback, this.responseTimeout);
+    this.once('SD', function(data){
+      callback(null, data);
+    });
+  }
+  this._connection.write(messaging.writeTextDescriptionsMessage('sd', type, address));
 }
 
 /*********************************/
