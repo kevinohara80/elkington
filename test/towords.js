@@ -1,10 +1,10 @@
 var towords = require('../lib/towords');
 
-describe('towords', function(){
-  
-  describe('#calc', function(){
-    
-    it('should return a single word for a single digit', function(done){
+describe('towords', function () {
+
+  describe('#calc', function () {
+
+    it('should return a single word for a single digit', function (done) {
       towords.calc(0).should.equal('zero');
       towords.calc(1).should.equal('one');
       towords.calc(2).should.equal('two');
@@ -17,8 +17,8 @@ describe('towords', function(){
       towords.calc(9).should.equal('nine');
       done();
     });
-    
-    it('should return a single word for a 10 to 19', function(done){
+
+    it('should return a single word for a 10 to 19', function (done) {
       towords.calc(10).should.equal('ten');
       towords.calc(11).should.equal('eleven');
       towords.calc(12).should.equal('twelve');
@@ -31,8 +31,8 @@ describe('towords', function(){
       towords.calc(19).should.equal('nineteen');
       done();
     });
-    
-    it('should return a single word for a 20, 30, 40...90', function(done){
+
+    it('should return a single word for a 20, 30, 40...90', function (done) {
       towords.calc(20).should.equal('twenty');
       towords.calc(30).should.equal('thirty');
       towords.calc(40).should.equal('forty');
@@ -43,33 +43,33 @@ describe('towords', function(){
       towords.calc(90).should.equal('ninety');
       done();
     });
-    
-    it('should return two words for 22 and 84', function(done){
+
+    it('should return two words for 22 and 84', function (done) {
       towords.calc(22).should.equal('twenty two');
       towords.calc(84).should.equal('eighty four');
       done();
     });
-    
-    it('should return \'one hundred one\' for 101', function(done){
+
+    it('should return \'one hundred one\' for 101', function (done) {
       towords.calc(101).should.equal('one hundred one');
       done();
     });
-    
-    it('should return \'one hundred twenty one\' for 121', function(done){
+
+    it('should return \'one hundred twenty one\' for 121', function (done) {
       towords.calc(121).should.equal('one hundred twenty one');
       done();
     });
-    
-    it('should return \'two thousand four hundred eighty three\' for 2483', function(done){
+
+    it('should return \'two thousand four hundred eighty three\' for 2483', function (done) {
       towords.calc(2483).should.equal('two thousand four hundred eighty three');
       done();
     });
-    
-    it('should add a point for decimals', function(done){
+
+    it('should add a point for decimals', function (done) {
       towords.calc(101.25).should.equal('one hundred one point two five');
       done();
     });
-    
+
   });
-  
+
 });
