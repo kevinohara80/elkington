@@ -270,6 +270,16 @@ ElkConnection.prototype.taskActivationRequest = function (task) {
   //console.log(messaging.writeTaskActivationMessage('tn', task));
 }
 
+ElkConnection.prototype.validUserCodeRequest = function (userCode, callback) {
+  if (callback && typeof callback === 'function') {
+    callback = safereturn(callback, this.responseTimeout);
+    this.once('UA', function (data) {
+      callback(null, data);
+    });
+  }
+  this._connection.write(messaging.writeValidUserCodeMessage('ua', userCode));
+}
+
 ElkConnection.prototype.textDescriptionRequest = function (type, address, callback) {
   if (callback && typeof callback === 'function') {
     callback = safereturn(callback, this.responseTimeout);
