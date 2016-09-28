@@ -290,6 +290,16 @@ ElkConnection.prototype.textDescriptionRequest = function (type, address, callba
   this._connection.write(messaging.writeTextDescriptionsMessage('sd', type, address));
 }
 
+ElkConnection.prototype.systemLogRequest = function (logEntry, callback) {
+  if (callback && typeof callback === 'function') {
+    callback = safereturn(callback, this.responseTimeout);
+    this.once('LD', function (data) {
+      callback(null, data);
+    });
+  }
+  this._connection.write(messaging.writeSystemLogMessage('ld', logEntry));
+}
+
 /*********************************/
 /* exports                       */
 /*********************************/
