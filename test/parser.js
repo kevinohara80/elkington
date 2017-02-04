@@ -10,20 +10,20 @@ var tests = [
   { ascii: '0ACC063000E0', message: 'Control output change update' },
   { ascii: '19UA000123C33036BC9A41F009F', message: 'User code areas report data' },
   { ascii: '0BPCA08010091', message: 'PLC change update' },
-  { ascii: '1BSD01001Miller Res      0054', message: 'Text string description report data'}
+  { ascii: '1BSD01001Miller Res      0054', message: 'Text string description report data' }
 ];
 
-describe('parser', function(){
-  
-  describe('#parseMessage', function(){
-    
-    it('should return unknown for \'9999999999999999999\'', function(done){
+describe('parser', function () {
+
+  describe('#parseMessage', function () {
+
+    it('should return unknown for \'9999999999999999999\'', function (done) {
       var results = parser.parseMessage('9999999999999999999');
       results.message.should.equal('Unknown message');
       done();
     });
-    
-    it('should parse \'Request Ethernet test\' message ok', function(done){
+
+    it('should parse \'Request Ethernet test\' message ok', function (done) {
       var results = parser.parseMessage(tests[0].ascii);
       results.message.should.equal(tests[0].message);
       results.length.should.equal(22);
@@ -32,8 +32,8 @@ describe('parser', function(){
       results.dataRaw.should.equal('543522613041211000');
       done();
     });
-    
-    it('should parse \'Arming Status\' message ok', function(done){
+
+    it('should parse \'Arming Status\' message ok', function (done) {
       var results = parser.parseMessage(tests[1].ascii);
       results.message.should.equal(tests[1].message);
       results.length.should.equal(30);
@@ -50,8 +50,8 @@ describe('parser', function(){
       results.data.area1.alarmState.should.equal('Fire Alarm');
       done();
     });
-    
-    it('should parse \'Alarm Reporting\' message ok', function(done){
+
+    it('should parse \'Alarm Reporting\' message ok', function (done) {
       var results = parser.parseMessage(tests[3].ascii);
       results.message.should.equal(tests[3].message);
       results.length.should.equal(22);
@@ -62,8 +62,8 @@ describe('parser', function(){
       results.data.zone.should.equal(1);
       done();
     });
-    
-    it('should parse \'Zone change update\' message ok', function(done){
+
+    it('should parse \'Zone change update\' message ok', function (done) {
       var results = parser.parseMessage(tests[4].ascii);
       results.message.should.equal(tests[4].message);
       results.length.should.equal(10);
@@ -73,7 +73,7 @@ describe('parser', function(){
       done();
     });
 
-    it('should parse \'Control output change update\' message ok', function(done){
+    it('should parse \'Control output change update\' message ok', function (done) {
       var results = parser.parseMessage(tests[5].ascii);
       results.message.should.equal(tests[5].message);
       results.length.should.equal(10);
@@ -82,8 +82,8 @@ describe('parser', function(){
       results.data.outputState.should.equal('Off');
       done();
     });
-    
-    it('should parse \'User code areas report data\' message ok', function(done){
+
+    it('should parse \'User code areas report data\' message ok', function (done) {
       var results = parser.parseMessage(tests[6].ascii);
       results.message.should.equal(tests[6].message);
       results.length.should.equal(25);
@@ -99,8 +99,8 @@ describe('parser', function(){
       results.data.temperatureMode.should.equal('Fahrenheit');
       done();
     });
-    
-    it('should parse \'PLC change update\' message ok', function(done){
+
+    it('should parse \'PLC change update\' message ok', function (done) {
       var results = parser.parseMessage(tests[7].ascii);
       results.message.should.equal(tests[7].message);
       results.length.should.equal(11);
@@ -111,7 +111,7 @@ describe('parser', function(){
       done();
     });
 
-    it('should parse \'Text string description report data\' message ok', function(done){
+    it('should parse \'Text string description report data\' message ok', function (done) {
       var results = parser.parseMessage(tests[8].ascii);
       results.message.should.equal(tests[8].message);
       results.length.should.equal(27);
@@ -124,5 +124,5 @@ describe('parser', function(){
     });
 
   });
-  
+
 });
