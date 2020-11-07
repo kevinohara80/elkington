@@ -36,14 +36,23 @@ var ElkConnection = function (opts) {
     : 'away';
 
   var that = this;
-
   function afterConnect() {
+  
 
     that._connection.setEncoding('ascii');
 
     // data event handler
     that._connection.on('data', function (data) {
-
+      
+      // used to loop over data packets
+      var i = 0;
+      
+      // if multiple data packets are received split them up here
+      lines = data.split('\r\n');
+      console.log(lines);
+      console.log('lines: ' + lines.length);
+      
+      // in the case of login we only process one line so strip the CR-LF
       data = data.trim().replace('\r', '').replace('\n', '');
 
       // check for elk auth requests
@@ -65,15 +74,21 @@ var ElkConnection = function (opts) {
       if (!that.useSecure) that.emit('connect');
 
       // assuming the above passes, we parse the elk message and emit
-      var msg = parser.parseMessage(data);
+      
+      while (lines[i]) {
+      if (i !== "") {
+      var msg = parser.parseMessage(lines[i]);
       msg.time = new Date();
       msg.host = that._connection.address().address;
       msg.port = that.port;
       msg.remotePort = that._connection.address().port;
       that.emit('any', msg);
       that.emit(msg.commandCode, msg);
+      i++;
+      }
+      }
     });
-
+    
     // error event handler
     that._connection.on('error', function (err) {
       if (err.code == 'ECONNREFUSED') {
@@ -111,6 +126,7 @@ var ElkConnection = function (opts) {
       //cipher: 'AES256-SHA'
     };
     this._connection = new tls.connect(this.port, this.host, options, afterConnect);
+    
   } else {
     this._connection = new net.connect(this.port, this.host, afterConnect);
   }
